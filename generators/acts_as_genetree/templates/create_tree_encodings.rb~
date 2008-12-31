@@ -3,7 +3,7 @@ class CreateTreeEncodings < ActiveRecord::Migration
     
     # Don't specify primary key via migration defs, since
     # MysqlAdapter's native_database_types has auto_incremented primary key
-    create_table :tree_encodings do |t|
+    create_table :tree_encodings, :id => false do |t|
       t.column :deci, :integer
       t.column :code, :char
     end

@@ -1,0 +1,7 @@
+test:
+  adapter: mysql
+  database: test
+  username: root
+  password: azriroot
+  encoding: latin1
+  socket: /var/run/mysqld/mysqld.sock
