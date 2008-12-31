@@ -105,4 +105,13 @@ Running specs
       2) spec ./spec/tree_encodings_spec.rb
          spec ./spec/hobj_spec.rb
 
+Notes
+=====
+
+      1) When using with rails 2.2.2 we get the following warning:
+
+DEPRECATION WARNING: String#chars has been deprecated in favor of String#mb_chars.. (called from mvgid_base159_incr at (eval):44)
+
+      If you want to avoid this warning, I suggest you replace the occurences of calls to chars with mb_chars in lib/genetree/acts_as_genetree.rb. (Replacing chars with mb_chars in the repository would mean the plugin would break in pre 2.2.2 versions)
+
 Copyright (c) 2008 gautam.chekuri@gmail.com, released under the MIT license
