@@ -35,7 +35,7 @@ module BinaryFigs
               end
               record.sortkey = parent_rec.sortkey + "/" + tomvgID( skey )
               
-              unless ( prev_sortkey.nil? )
+              if ( !prev_sortkey.nil? && !prev_sortkey.empty? )
                 # currently, we don't allow moving a object in such a way that it becomes
                 # a child object within the subtree rooted under it
                 unless ( record.sortkey.match( "^#{prev_sortkey}/.+" ).nil? )
