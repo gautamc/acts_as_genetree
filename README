@@ -24,17 +24,43 @@ ActsAsGenetree
          representing the tree. Tree operations can be performed using lexical comparsions or substring
          operations on the sortkey.
 
+      5) To after installing the plugin run the generator to create the tree_encodings migrations.
+         shell$ ./script/generate acts_as_genetree  create_tree_encoding
+         After this run the migration that was created.
 
 Example
 =======
 
-      1) Creating a root object:
+      1) A simple exmaple class:
+
+       Create the table which will hold the hierarchical records. It should at least have a primary key and
+       the fllowing columns:
+        a) parent_id - type integer
+        b) sortkey - type text
+
+       Example migration:
+        create_table :hierarchical_objects, :force => true do |t|
+          t.column :parent_id, :integer
+          t.column :sortkey, :text
+        end
+
+       Example model class:
+         class HierarchicalObject < ActiveRecord::Base
+           acts_as_genetree
+         end
+
+       Refer to the following files in the plugin dir:
+         db/schema.rb
+         spec/hobj_spec.rb 
+         spec/tree_encodings_spec.rb 
+
+      2) Creating a root object:
 
       root = HierarchicalObject.new
       root.id = 1999
       saved_p = root.save
 
-      2) Creating a child object:
+      3) Creating a child object:
 
       node2 = HierarchicalObject.new
       node2.id = 2876
@@ -59,18 +85,24 @@ Example
 
       Notice, how the sortkey holds both the depth and the ordering of a record.
 
-      3) To delete a (sub)tree we can do the following:
+      4) To delete a (sub)tree we can do the following:
 
       HierarchicalObject.find( 1999 ).subtree.reverse.each {
         |obj|
         obj.destroy
       }
 
-      4) We can also iterate through the ordered list of ancestors:
+      5) We can also iterate through the ordered list of ancestors:
 
       HierarchicalObject.find( 21 ).ancestors.each {
         |obj|
         .....
       }
+
+Running specs
+=============
+      1) Edit vendor/plugins/acts_as_genetree/db/database.yml as required.
+      2) spec ./spec/tree_encodings_spec.rb
+         spec ./spec/hobj_spec.rb
 
 Copyright (c) 2008 gautam.chekuri@gmail.com, released under the MIT license

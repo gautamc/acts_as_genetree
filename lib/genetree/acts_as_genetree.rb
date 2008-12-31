@@ -93,28 +93,28 @@ module BinaryFigs
             end
             
             def self.mvgid_base159_incr(base159)
+              ## TODO: MAKE $KCODE MODIFICATION DYNAMICALLY SCOPED AND THREAD SAFE
               if ( @@enc_revmap.keys.length == 0 )
                 @@enc_revmap = TreeEncoding.find( :all ).inject({}) {
                   |kvp, obj| kvp.merge! obj.code => obj.deci
                 }
               end
-              
+
               base159 ||= "0"
-              b159_num = base159.split( // )
               result = []
               carry = 1
               # starting at with unit's position
-              (b159_num.length-1).downto(1) {
+              (base159.chars.length-1).downto(1) {
                 |pos|
                 # get decimal value for base159 digit at this position
-                deci = @@enc_revmap[b159_num[pos]]
-                # add carry (or 1 if unit's digit of b159_num) to decimal value, convert to base159
-                accum = toBase159(deci + carry).split( // )
+                deci = @@enc_revmap[base159[pos..pos].to_s]
+                # add carry (or 1 if unit's digit of base159) to decimal value, convert to base159
+                accum = toBase159(deci + carry).to_s.chars
                 # get unit's digit in accum and assign at current positional place of result
-                result.unshift( accum.last )
+                result.unshift( accum[accum.length-1..accum.length-1].to_s )
                 # assign the decimal value of the next digit of accum as carry
                 if( accum.length > 1 )
-                  carry = @@enc_revmap[accum[0]]
+                  carry = @@enc_revmap[accum[0..0].to_s]
                 else
                   carry = 0
                 end
@@ -126,10 +126,11 @@ module BinaryFigs
             end
             
             def self.tomvgID(base159)
+              ## TODO: MAKE $KCODE MODIFICATION DYNAMICALLY SCOPED AND THREAD SAFE
               base159 ||= "0"
-              mvgid = (toBase159(base159.to_s.length - 1)).to_s
+              mvgid = (toBase159(base159.chars.length - 1)).to_s
               mvgid += base159.to_s
-              mvgid
+              return mvgid
             end
           EOC
             
@@ -158,7 +159,7 @@ module BinaryFigs
             :order => "sortkey"
           )
         end
-  
+        
         def siblings
           self.class.base_class.find(
             :all,
@@ -170,9 +171,9 @@ module BinaryFigs
             :order => "sortkey"
           )
         end
-
+        
       end # end of module for instance methods
-
+      
     end # end of module genetree
   end # end of module acts
 end  # end of module BinaryFigs

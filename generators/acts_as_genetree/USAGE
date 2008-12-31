@@ -1,8 +1,8 @@
 Description:
-    Explain the generator
+    Run this generator to create the migration which will be used to create the tree_encodings table.
 
 Example:
-    ./script/generate acts_as_genetree Thing
+    ./script/generate acts_as_genetree create_tree_encodings
 
     This will create:
-        what/will/it/create
+        db/migrate/TIMESTAMP_create_tree_encodings.rb
