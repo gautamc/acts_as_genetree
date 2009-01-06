@@ -23,6 +23,11 @@ module BinaryFigs
               end
             end
             
+            # if not updating the parent_id return true
+            if( exists?( :id => record.id, :parent_id => record.parent_id) )
+              return true
+            end
+            
             begin
               parent_rec = find( record.parent_id )
               yngst_sibling_sortkey = maximum( :sortkey, :conditions => ['parent_id = ?', record.parent_id] )

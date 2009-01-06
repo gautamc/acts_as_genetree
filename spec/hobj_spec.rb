@@ -117,6 +117,13 @@ describe HierarchicalObject, "when building a tree of objects" do
     node8.reload
     node8.sortkey.should eql( "/00/03/00/00" )
   end
+
+  it "should not update sortkey when not updating parent_id" do
+    node4 = HierarchicalObject.find( 4396 )
+    node4.sortkey.should eql( "/00/03" )
+    node4.save
+    node4.sortkey.should eql( "/00/03" )
+  end
   
   it "should not allow deletion of an object with descendant objects" do
     node4 = HierarchicalObject.find( 4396 )
