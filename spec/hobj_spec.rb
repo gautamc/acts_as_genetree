@@ -26,6 +26,8 @@ describe HierarchicalObject, "when building a tree of objects" do
     dead_root.id = 2
     saved_p = dead_root.save
     saved_p.should be_false
+    dead_root.errors.count.should eql( 1 )
+    dead_root.errors.on(:parent_id).should eql( "Parent object is required." )
   end
   
   it "should have a parent_id and sortkey for a non root object" do
@@ -42,6 +44,8 @@ describe HierarchicalObject, "when building a tree of objects" do
     node3.parent_id = 420
     saved_p = node3.save
     saved_p.should be_false
+    node3.errors.count.should eql( 1 )
+    node3.errors.on(:parent_id).should eql( "Parent object was not found." )
   end
   
   it "should not allow of moving of an object into its own subtree" do
@@ -57,6 +61,8 @@ describe HierarchicalObject, "when building a tree of objects" do
     
     saved_p.should be_false
     node2.sortkey.should eql( "/00/00" )
+    node2.errors.count.should eql( 1 )
+    node2.errors.on(:parent_id).should eql( "The new parent object can't be from among child objects." )
   end
   
   it "should allow of moving of an object" do

@@ -19,6 +19,7 @@ module BinaryFigs
                 record.sortkey = "/00"
                 return true
               else
+                record.errors.add("parent_id", "Parent object is required.")
                 return false
               end
             end
@@ -45,6 +46,7 @@ module BinaryFigs
                 # a child object within the subtree rooted under it
                 unless ( record.sortkey.match( "^#{prev_sortkey}/.+" ).nil? )
                   record.sortkey = prev_sortkey
+                  record.errors.add("parent_id", "The new parent object can't be from among child objects.")
                   return false
                 end
                 
@@ -57,6 +59,7 @@ module BinaryFigs
               end
               return true
             rescue ActiveRecord::RecordNotFound
+              record.errors.add("parent_id", "Parent object was not found.")
               return false
             end
           }
