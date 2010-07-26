@@ -114,4 +114,4 @@ DEPRECATION WARNING: String#chars has been deprecated in favor of String#mb_char
 
       If you want to avoid this warning, I suggest you replace the occurences of calls to chars with mb_chars in lib/genetree/acts_as_genetree.rb. (Replacing chars with mb_chars in the repository would mean the plugin would break in pre 2.2.2 versions)
 
-Copyright (c) 2008 gautam.chekuri@gmail.com, released under the MIT license
+Copyright (c) 2008 gautam.chekuri@gmail.com, released under the MIT licence
